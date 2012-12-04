@@ -1,13 +1,12 @@
-import codecs
-import re
+import codecs, sys, re
 import tashaphyne.normalize as norm
 from pyquery import PyQuery as pq
 import Levenshtein
 
-
 almizan = codecs.open('data/almizan.html', encoding='utf-8').read()
 quran = codecs.open('data/quran.txt', encoding='utf-8').readlines()
 d = pq(almizan)
+i = 0
 for aye in d('blockquote p'):
 	aye = pq(aye)
 	# aye.text()
@@ -32,9 +31,13 @@ for aye in d('blockquote p'):
 		match = re.search(r'\|\d+', ayeh)
 		a = int(match.group(0)[1:])
 		del quran[0]
-		
-	print s,a,max
+
 	aye.addClass('aye')
 	aye.attr('rel', '%s-%s' % (s, a))
+
+	i += 1
+	if i % 100 == 0:
+		sys.stdout.write('.')
+		sys.stdout.flush()
 
 d.root.write('data/output.html', encoding='utf-8')
