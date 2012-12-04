@@ -5,6 +5,7 @@ import Levenshtein
 
 almizan = codecs.open('data/almizan.html', encoding='utf-8').read()
 quran = codecs.open('data/quran.txt', encoding='utf-8').readlines()
+errors = open('data/errors.txt','w')
 d = pq(almizan)
 i = 0
 for aye in d('blockquote p'):
@@ -21,6 +22,8 @@ for aye in d('blockquote p'):
 			s = int(match.group(0))
 			match = re.search(r'\|\d+', ayeh)
 			a = int(match.group(0)[1:])
+			for err in quran[:c]:
+				errors.write(err.encode('utf-8'))
 			del quran[:c+1]
 			break
 		c += 1
