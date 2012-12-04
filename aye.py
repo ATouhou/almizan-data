@@ -41,3 +41,5 @@ for aye in d('blockquote p'):
 		sys.stdout.flush()
 
 d.root.write('data/output.html', encoding='utf-8')
+
+print ' Aye tags added'
