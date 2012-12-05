@@ -9,7 +9,7 @@ errors = open('data/errors.txt', 'w')
 d = pq(almizan)
 for i, div in enumerate(d('div')):
 	div = pq(div)
-	ayas = div.find('.aye')
+	ayas = div.find('.aya')
 	if ayas:
 		rels = [pq(p).attr('rel') for p in ayas]
 	else:
