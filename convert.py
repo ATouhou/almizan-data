@@ -1,6 +1,6 @@
 import sys, codecs, markdown
 
-converted = codecs.open('data/almizan.html', 'w', encoding='utf8')
+converted = codecs.open('data/output-convert.html', 'w', encoding='utf8')
 
 converted.write('<html>')
 

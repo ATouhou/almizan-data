@@ -5,7 +5,7 @@ from pyquery import PyQuery as pq
 import tashaphyne.normalize as norm
 import Levenshtein
 
-almizan = codecs.open('data/almizan.html', encoding='utf-8').read()
+almizan = codecs.open('data/output-convert.html', encoding='utf-8').read()
 quran = codecs.open('data/quran.txt', encoding='utf-8').readlines()
 errors = open('data/errors.txt','w')
 
@@ -41,6 +41,6 @@ for i, aya in enumerate(d('blockquote p')):
 
 	if i % 100 == 0: sys.stdout.write('.'); sys.stdout.flush()
 
-d.root.write('data/output.html', encoding='utf-8')
+d.root.write('data/output-aya.html', encoding='utf-8')
 
 print ' aya tags added'

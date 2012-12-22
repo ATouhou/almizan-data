@@ -3,7 +3,7 @@
 import codecs, sys
 from pyquery import PyQuery as pq
 
-almizan = codecs.open('data/almizan.html', encoding='utf-8').read()
+almizan = codecs.open('data/output-aya.html', encoding='utf-8').read()
 errors = open('data/errors.txt', 'w')
 
 d = pq(almizan)
@@ -33,6 +33,6 @@ for i, div in enumerate(d('div')):
 
 	if i % 50 == 0: sys.stdout.write('.'); sys.stdout.flush()
 
-d.root.write('data/output.html', encoding='utf-8')
+d.root.write('data/output-sections.html', encoding='utf-8')
 
 print ' Section tags added'
