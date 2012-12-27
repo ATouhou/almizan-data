@@ -12,6 +12,8 @@ errors = open('data/errors.txt','w')
 d = pq(almizan)
 for i, aya in enumerate(d('blockquote p')):
 	aya = pq(aya)
+	"""if aya.parent().prev()[0].tag != 'h1':
+		continue;"""
 	s, a, max, c = 0, 0, 0, 0
 	for ayah in quran:
 		ayah = norm.normalize_searchtext(ayah)
@@ -23,6 +25,7 @@ for i, aya in enumerate(d('blockquote p')):
 			s = int(match.group(0))
 			match = re.search(r'\|\d+', ayah)
 			a = int(match.group(0)[1:])
+			print('L: %s-%s' %(s,a))
 			for err in quran[:c]:
 				errors.write(err.encode('utf-8'))
 			del quran[:c+1]
@@ -31,15 +34,18 @@ for i, aya in enumerate(d('blockquote p')):
 	if max <= 0.75:
 		ayah = quran[0]
 		match = re.search(r'\d+', ayah)
+		if match == None:
+			continue
 		s = int(match.group(0))
 		match = re.search(r'\|\d+', ayah)
 		a = int(match.group(0)[1:])
+		print('%s-%s' %(s,a))
 		del quran[0]
 
 	aya.addClass('aya')
 	aya.attr('rel', '%s-%s' % (s, a))
 
-	if i % 100 == 0: sys.stdout.write('.'); sys.stdout.flush()
+	#if i % 100 == 0: sys.stdout.write('.'); sys.stdout.flush()
 
 d.root.write('data/output-aya.html', encoding='utf-8')
 
