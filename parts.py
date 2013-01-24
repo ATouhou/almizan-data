@@ -69,7 +69,7 @@ for sec in d("div"):
 				partlen = len(part_tokens)
 				if partlen<1:
 					continue
-				for i in range(len(aya_tokens)-partlen):
+				for i in range(len(aya_tokens)-partlen + 1):
 					start = i
 					end = start + partlen						
 					current = start
