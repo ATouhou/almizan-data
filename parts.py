@@ -5,8 +5,9 @@ from pyquery import PyQuery as pq
 import Levenshtein
 from idlelib.IOBinding import encoding
 import tashaphyne.normalize as norm
+from nltk import stem
 
-
+isri = stem.ISRIStemmer()
 almizan = codecs.open('data/output-trans.html',encoding='utf-8').read()
 errors = open('data/parts_errors.txt','w')
 quran = codecs.open('data/quran.txt', encoding='utf-8').readlines()
@@ -37,17 +38,20 @@ for sec in d("div"):
 					quran = quran[c+1:]
 					break
 			i += 1	
-		#omit parts with null or <=2 length
+
 		counter = 1
 		for part in sec.find("em"):
 			success = 0
 			part = pq(part)
 			try:
 				part_text = norm.normalize_searchtext(part[0].text)
-				part_text = part_text
+				part_text = isri.stem(part_text)
 			except:
 				part_text = part[0].text
-				errors.write(part.outerHtml())
+				try:
+					errors.write(part.outerHtml())
+				except:
+					pass
 			print counter
 			counter += 1
 			if part == None or part[0].text == None:
@@ -57,7 +61,8 @@ for sec in d("div"):
 			
 			for aya in sec_ayas:
 				aya = norm.normalize_searchtext(aya)
-				aya = aya.replace(u'ي', u'ی').replace(u'ك', u'ک')				
+				aya = aya.replace(u'ي', u'ی').replace(u'ك', u'ک')
+				aya = isri.stem(aya)				
 				aya_tokens = re.split("[ |\r\n]",aya[:-2])
 				aya_tokens = aya_tokens[2:]
 				part_tokens = re.split(" ",part_text)
@@ -68,7 +73,7 @@ for sec in d("div"):
 					start = i
 					end = start + partlen						
 					current = start
-					threshold = 0.5
+					threshold = 0.7
 					while current<end:
 						try:
 							if Levenshtein.ratio(aya_tokens[current], part_tokens[current-i]) > threshold:
